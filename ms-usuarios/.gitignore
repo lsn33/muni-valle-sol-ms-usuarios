@@ -27,3 +27,6 @@ Desktop.ini
 # Logs
 *.log
 logs/
+
+# Credenciales 
+src/main/resources/application.yml
