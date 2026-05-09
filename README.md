@@ -2,6 +2,7 @@
 
 Microservicio de gestión de usuarios y autenticación JWT para la plataforma de reportes de incendios.
 
+
 ## Tecnologías
 - Java 21
 - Spring Boot 4.0.6
@@ -10,20 +11,22 @@ Microservicio de gestión de usuarios y autenticación JWT para la plataforma de
 - Flyway (migraciones de BD)
 - Maven
 
+
 ## Patrones de diseño implementados
 - **Repository Pattern**: `UsuarioRepository` desacopla el acceso a datos de la lógica de negocio
 - **DTO con Records**: `UsuarioDTO` como objeto inmutable para transferencia de datos
+
 
 ## Requisitos
 - Java 21
 - Maven
 - Cuenta en Neon.tech (PostgreSQL en la nube)
 
+
 ## Configuración
-
 Crea el archivo `src/main/resources/application.yml` con tus credenciales:
-
 ```yaml
+
 spring:
   application:
     name: ms-usuarios
@@ -48,22 +51,20 @@ jwt:
   expiration: 86400000
 ```
 
-## Ejecutar el proyecto
 
+## Ejecutar el proyecto
 ```bash
 ./mvnw spring-boot:run
 ```
 
 El servidor arranca en `http://localhost:8081`
 
+
 ## Endpoints
 
 ### Registro de usuario
-
 POST /api/usuarios/register
 Content-Type: application/json
-
-
 {
 "nombre": "Lucas",
 "email": "lucas@test.com",
@@ -71,10 +72,10 @@ Content-Type: application/json
 "rol": "CIUDADANO"
 }
 
+
 ### Login
 POST /api/usuarios/login
 Content-Type: application/json
-
 {
 "email": "lucas@test.com",
 "password": "123456"
@@ -82,14 +83,23 @@ Content-Type: application/json
 
 Retorna un token JWT y el rol del usuario.
 
+
+## Migraciones de BD (Flyway)
+Las migraciones se ejecutan automáticamente al iniciar el proyecto:
+
+| Versión | Archivo | Descripción |
+|---------|---------|-------------|
+| V2 | V2__crear_tabla_usuario.sql | Crea tabla usuario con campos id, nombre, email, password, rol, activo, fecha_creacion |
+
+
 ## Estrategia de Branching
 Se utiliza Git Flow:
 - `main` → código estable y probado
 - `develop` → integración de features
 - `feature/*` → desarrollo de funcionalidades
 
-## Estructura del proyecto
 
+## Estructura del proyecto
 src/main/java/cl/municipalidad/ms_usuarios/
 ├── usuario/
 │   ├── Usuario.java
