@@ -1,6 +1,6 @@
-package cl.municipalidad.ms_usuarios.usuario;
+package cl.municipalidad.msusers.dto;
 
-public record UsuarioDTO(
+public record UserDTO(
     Long id,
     String nombre,
     String email,

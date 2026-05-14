@@ -1,26 +1,29 @@
-package cl.municipalidad.ms_usuarios.usuario;
+package cl.municipalidad.msusers.controller;
 
-import cl.municipalidad.ms_usuarios.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import cl.municipalidad.msusers.dto.UserDTO;
+import cl.municipalidad.msusers.security.JwtUtil;
+import cl.municipalidad.msusers.service.UserService;
+
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuarios")
 @RequiredArgsConstructor
-public class UsuarioController {
+public class UserController {
 
-    private final UsuarioService usuarioService;
+    private final UserService usuarioService;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<UsuarioDTO> registrar(@RequestBody Map<String, String> body) {
-        UsuarioDTO dto = usuarioService.registrar(
+    public ResponseEntity<UserDTO> registrar(@RequestBody Map<String, String> body) {
+        UserDTO dto = usuarioService.registrar(
             body.get("nombre"),
             body.get("email"),
             body.get("password"),

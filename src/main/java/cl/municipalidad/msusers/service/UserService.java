@@ -1,31 +1,36 @@
-package cl.municipalidad.ms_usuarios.usuario;
+package cl.municipalidad.msusers.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import cl.municipalidad.msusers.dto.UserDTO;
+import cl.municipalidad.msusers.model.User;
+import cl.municipalidad.msusers.repository.UserRepository;
+
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UsuarioService {
+public class UserService {
 
-    private final UsuarioRepository usuarioRepository;
+    private final UserRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioDTO registrar(String nombre, String email, String password, String rol) {
+    public UserDTO registrar(String nombre, String email, String password, String rol) {
         if (usuarioRepository.existsByEmail(email)) {
             throw new RuntimeException("El email ya está registrado");
         }
 
-        Usuario usuario = new Usuario();
+        User usuario = new User();
         usuario.setNombre(nombre);
         usuario.setEmail(email);
         usuario.setPassword(passwordEncoder.encode(password));
         usuario.setRol(rol);
 
-        Usuario guardado = usuarioRepository.save(usuario);
+        User guardado = usuarioRepository.save(usuario);
 
-        return new UsuarioDTO(
+        return new UserDTO(
             guardado.getId(),
             guardado.getNombre(),
             guardado.getEmail(),
@@ -34,7 +39,7 @@ public class UsuarioService {
         );
     }
 
-    public Optional<Usuario> buscarPorEmail(String email) {
+    public Optional<User> buscarPorEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }
 }

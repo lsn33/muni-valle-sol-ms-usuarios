@@ -1,4 +1,4 @@
-package ms_usuarios;
+package msusers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
