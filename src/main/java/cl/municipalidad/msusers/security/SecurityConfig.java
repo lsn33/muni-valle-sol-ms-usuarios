@@ -1,4 +1,4 @@
-package cl.municipalidad.ms_usuarios.security;
+package cl.municipalidad.msusers.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,13 +1,16 @@
-package cl.municipalidad.ms_usuarios.usuario;
+package cl.municipalidad.msusers.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import cl.municipalidad.msusers.model.User;
+
 import java.util.Optional;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
     
-    Optional<Usuario> findByEmail(String email);
+    Optional<User> findByEmail(String email);
     
     Boolean existsByEmail(String email);
 }
