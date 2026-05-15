@@ -42,4 +42,17 @@ public class UserController {
             })
             .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UserDTO> buscarPorEmail(@PathVariable String email) {
+        return usuarioService.buscarPorEmail(email)
+            .map(u -> ResponseEntity.ok(new UserDTO(
+                u.getId(),
+                u.getNombre(),
+                u.getEmail(),
+                u.getRol(),
+                u.getActivo()
+            )))
+            .orElse(ResponseEntity.notFound().build());
+    }
 }
