@@ -1,4 +1,4 @@
-package msusers;
+package cl.municipalidad.msusers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
