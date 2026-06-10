@@ -1,0 +1,36 @@
+# Archivos que Docker NO debe copiar al construir la imagen
+# Similar al .gitignore pero para Docker
+
+# Carpeta de compilación — se genera dentro del contenedor
+target/
+
+# Claves RSA — NUNCA deben ir dentro de la imagen
+# Se montan como volumen externo al correr el contenedor
+*.pem
+
+# Archivos de entorno locales — contienen credenciales
+.env
+*.env
+
+# Herramientas de desarrollo que generan las claves
+GenerateKeys.java
+GenerateKeys.class
+
+# Control de versiones
+.git/
+.gitignore
+.gitattributes
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.class
+
+# Documentación — no necesaria en la imagen
+README.md
+*.md
+
+# OS
+.DS_Store
+Thumbs.db
