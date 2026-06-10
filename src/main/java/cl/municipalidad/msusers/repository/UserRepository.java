@@ -19,6 +19,10 @@ import java.util.Optional;
  * {@code save()}, {@code findById()}, {@code findAll()}, {@code deleteById()},
  * entre otras.</p>
  *
+ * <p>Los métodos {@code IgnoreCase} garantizan que
+ * {@code Juan@Mail.cl} y {@code juan@mail.cl} se traten como el mismo email,
+ * evitando registros duplicados por diferencia de capitalización.</p>
+ *
  * <p><b>Patrón aplicado:</b> Repository Pattern (Martin Fowler).</p>
  *
  * @author Municipalidad Valle del Sol
@@ -29,19 +33,19 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
-     * Busca un usuario por su correo electrónico.
+     * Busca un usuario por su correo electrónico ignorando mayúsculas/minúsculas.
      *
      * @param email Correo electrónico a buscar.
      * @return {@link Optional} con el usuario si existe, vacío si no.
      */
-    Optional<User> findByEmail(String email);
+    Optional<User> findByEmailIgnoreCase(String email);
 
     /**
-     * Verifica si ya existe un usuario registrado con el correo dado.
-     * Usado para evitar registros duplicados.
+     * Verifica si ya existe un usuario con el correo dado, ignorando capitalización.
+     * Usado para evitar registros duplicados durante el registro.
      *
      * @param email Correo electrónico a verificar.
      * @return {@code true} si el email ya está en uso, {@code false} si está disponible.
      */
-    Boolean existsByEmail(String email);
+    boolean existsByEmailIgnoreCase(String email);
 }

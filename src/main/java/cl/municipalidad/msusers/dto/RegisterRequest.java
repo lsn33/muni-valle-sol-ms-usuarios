@@ -8,25 +8,25 @@ import jakarta.validation.constraints.Size;
 /**
  * DTO de entrada para el registro de un nuevo usuario.
  *
- * <p>Implementa el patrón <b>Record</b> de Java para inmutabilidad.
- * Incluye validaciones de Jakarta Bean Validation que se ejecutan
- * automáticamente al usar {@code @Valid} en el controlador, antes
- * de que el dato llegue a la capa de servicio.</p>
+ * <p>Implementa el patrón <b>Record</b> de Java para garantizar inmutabilidad.
+ * Las anotaciones de Jakarta Bean Validation se ejecutan automáticamente
+ * al usar {@code @Valid} en el controlador, rechazando datos inválidos
+ * antes de llegar a la capa de servicio.</p>
  *
  * <p><b>Patrón aplicado:</b> Data Transfer Object (DTO) con Java Record + Bean Validation.</p>
  *
- * @param nombre   Nombre completo del usuario. Obligatorio, máximo 100 caracteres.
- * @param email    Correo electrónico válido y único en el sistema.
- * @param password Contraseña en texto plano. Mínimo 8 caracteres.
- * @param rol      Rol del usuario. Solo se aceptan: ADMIN, FUNCIONARIO, CIUDADANO.
+ * @param nombre   Nombre completo del usuario. Entre 2 y 100 caracteres.
+ * @param email    Correo electrónico válido y único. Máximo 150 caracteres.
+ * @param password Contraseña en texto plano. Entre 8 y 72 caracteres.
+ * @param rol      Rol del usuario. Solo acepta: ADMIN, FUNCIONARIO, CIUDADANO.
  *
  * @author Municipalidad Valle del Sol
  * @version 1.0
  */
-public record CreateUserRequest(
+public record RegisterRequest(
 
     @NotBlank(message = "El nombre es obligatorio")
-    @Size(max = 100, message = "El nombre no puede superar los 100 caracteres")
+    @Size(min = 2, max = 100, message = "El nombre debe tener entre 2 y 100 caracteres")
     String nombre,
 
     @NotBlank(message = "El email es obligatorio")
@@ -35,7 +35,7 @@ public record CreateUserRequest(
     String email,
 
     @NotBlank(message = "La contraseña es obligatoria")
-    @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
+    @Size(min = 8, max = 72, message = "La contraseña debe tener entre 8 y 72 caracteres")
     String password,
 
     @NotBlank(message = "El rol es obligatorio")
