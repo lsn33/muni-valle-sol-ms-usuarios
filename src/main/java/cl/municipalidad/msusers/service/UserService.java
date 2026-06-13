@@ -12,6 +12,7 @@ import cl.municipalidad.msusers.dto.RegisterRequest;
 import cl.municipalidad.msusers.dto.UserDTO;
 import cl.municipalidad.msusers.model.User;
 import cl.municipalidad.msusers.repository.UserRepository;
+import cl.municipalidad.msusers.utils.TextUtils;
 
 /**
  * Servicio de lógica de negocio para la gestión y autenticación de usuarios.
@@ -56,10 +57,10 @@ public class UserService {
         }
 
         User user = new User();
-        user.setNombre(request.nombre().trim());
-        user.setEmail(request.email().trim().toLowerCase());
+        user.setNombre(TextUtils.clean(request.nombre()));
+        user.setEmail(TextUtils.toLower(request.email()));
         user.setPassword(passwordEncoder.encode(request.password()));
-        user.setRol(request.rol().toUpperCase().trim());
+        user.setRol(TextUtils.toUpper(request.rol()));
 
         return toDTO(userRepository.save(user));
     }
