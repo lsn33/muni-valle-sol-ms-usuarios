@@ -159,7 +159,8 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(Map.of(
                                 "email", "juan@municipalidad.cl",
-                                "password", "wrong"
+                                "password", "wrongpassword"
+
                         ))))
                 .andExpect(status().isUnauthorized());
     }
