@@ -63,7 +63,11 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET,
                     "/api/usuarios/email/**",
                     "/actuator/health",
-                    "/.well-known/jwks.json"
+                    "/.well-known/jwks.json",
+                    "/swagger-ui.html",
+                    "/swagger-ui/**",
+                    "/v3/api-docs",
+                    "/v3/api-docs/**"
                 ).permitAll()
                 .anyRequest().denyAll()
             );
