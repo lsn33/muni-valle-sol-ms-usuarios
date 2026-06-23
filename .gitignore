@@ -30,3 +30,11 @@ logs/
 
 # Credenciales 
 src/main/resources/application.yml
+
+*.pem
+GenerateKeys.java
+GenerateKeys.class
+
+k8s/secret.yaml
+k8s/secret-db.yaml
+k8s/secret-jwt.yaml
