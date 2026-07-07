@@ -49,7 +49,7 @@ class UserControllerTest {
     void setUp() {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(userController)
-                .setControllerAdvice(new GlobalExceptionHandler())
+                .setControllerAdvice(new GlobalExceptionHandler(new cl.municipalidad.msusers.glitchtip.GlitchTipErrorReporter(), new cl.municipalidad.msusers.glitchtip.GlitchTipLogger()))
                 .build();
     }
 
