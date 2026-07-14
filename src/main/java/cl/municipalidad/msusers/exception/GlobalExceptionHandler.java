@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,6 +14,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import cl.municipalidad.msusers.glitchtip.GlitchTipErrorReporter;
+import cl.municipalidad.msusers.glitchtip.GlitchTipLogger;
 
 /**
  * Manejador global de excepciones para el microservicio de usuarios.
@@ -52,6 +57,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    private final GlitchTipErrorReporter errorReporter;
+    private final GlitchTipLogger glitchTipLogger;
+
+    public GlobalExceptionHandler(GlitchTipErrorReporter errorReporter, GlitchTipLogger glitchTipLogger) {
+        this.errorReporter = errorReporter;
+        this.glitchTipLogger = glitchTipLogger;
+    }
+
     /**
      * Maneja errores de validación de Bean Validation ({@code @Valid}).
      *
@@ -70,6 +85,7 @@ public class GlobalExceptionHandler {
                         fe -> fe.getDefaultMessage() != null ? fe.getDefaultMessage() : "invalido",
                         (a, b) -> a
                 ));
+        glitchTipLogger.warn(logger, "Validacion fallida en ms-usuarios: {}", errores);
         return buildError(HttpStatus.BAD_REQUEST, "Datos de entrada invalidos", errores);
     }
 
@@ -81,6 +97,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex) {
+        glitchTipLogger.warn(logger, "Regla de negocio violada en ms-usuarios: {}", ex.getMessage());
         return buildError(HttpStatus.CONFLICT, ex.getMessage(), null);
     }
 
@@ -95,6 +112,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Map<String, Object>> handleBadCredentials(BadCredentialsException ex) {
+        glitchTipLogger.warn(logger, "Intento de login con credenciales invalidas");
         return buildError(HttpStatus.UNAUTHORIZED, "Credenciales invalidas", null);
     }
 
@@ -109,6 +127,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneral(Exception ex) {
+        errorReporter.captureException(ex, "Excepcion no controlada en ms-usuarios");
         return buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", null);
     }
 
